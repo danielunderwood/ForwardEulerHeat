@@ -106,7 +106,7 @@ double ** eulerCalculation(double ** u)
 
 int main(int argc, char ** argv)
 {
-    int x, t = 0;
+    	int x, t = 0;
 	FILE * dataFile;
 	double ** u = createFunctionArray(L, DX, TMAX, DT);
 	double * ic = createICArray();
@@ -125,7 +125,7 @@ int main(int argc, char ** argv)
 		fprintf(dataFile, "\n");
 	}
 
-    fprintf(dataFile, "Exiting");
+    	fprintf(dataFile, "Exiting");
 
 	fclose(dataFile);
 
