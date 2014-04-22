@@ -101,7 +101,7 @@ double ** eulerCalculation(double ** u)
 		}
 	}
     
-    return u;
+    	return u;
 }
 
 int main(int argc, char ** argv)
