@@ -8,15 +8,13 @@
 #define TMAX 10
 #define DT 0.1
 
-int xSize, tSize;
+int xSize = L/DX + 2;
+int tSize = TMAX/DT + 2;
 
 // Creates 2D Array to Represent Function Values
 double ** createFunctionArray(double xMax, double dx, double tMax, double dt)
 {
 	int i;
-
-	int xSize = xMax / dx + 2;
-	int tSize = tMax / dt + 2;
 
 	double ** u;
 
@@ -93,36 +91,39 @@ double ** fillBCIC(double ** u, double * ic, double ** bc)
 // Do the actual forward euler calculation
 double ** eulerCalculation(double ** u)
 {
-	int x, t;
+	int x, t = 0;
 
-	for(x = 2; x < xSize; x++)
+	for(x = 2; x < xSize-2; x++)
 	{
-		for(t = 2; t < tSize; t++)
+		for(t = 2; t < tSize-2; t++)
 		{
 			u[x][t+1] = u[x][t] + D/(DX * DX) * (u[x+1][t] - 2*u[x][t] + u[x-1][t]);
 		}
 	}
+    
+    return u;
 }
 
 int main(int argc, char ** argv)
 {
-		int x, t;
+    int x, t = 0;
 	double ** u = createFunctionArray(L, DX, TMAX, DT);
 	double * ic = createICArray();
 	double ** bc = createBCArray();
 
 	u = fillBCIC(u, ic, bc);
 	u = eulerCalculation(u);
-
 	// Try to print array
 	for(x = 0; x < xSize; x++)
 	{
 		for(t = 0; t < tSize; t++)
 		{
-			fprintf(stdout, "%f\t", u[x][t]);
+            fprintf(stdout, "%f ", u[x][t]);
 		}
 		fprintf(stdout, "\n");
 	}
+    
+    fprintf(stdout, "Exiting");
 
 	return 0;
 }
