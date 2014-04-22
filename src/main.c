@@ -93,7 +93,7 @@ double ** eulerCalculation(double ** u)
 {
 	int x, t = 0;
 
-	for(t = 1; t < tSize-2; t++)
+	for(t = 0; t < tSize-2; t++)
 	{
 		for(x = 1; x < xSize-2; x++)
 		{
