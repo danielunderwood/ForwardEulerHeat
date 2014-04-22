@@ -6,7 +6,7 @@
 #define L 10
 #define DX 0.5
 #define TMAX 1
-#define DT 0.1
+#define DT 0.01
 
 int xSize = L/DX + 2;
 int tSize = TMAX/DT + 2;
@@ -97,7 +97,7 @@ double ** eulerCalculation(double ** u)
 	{
 		for(x = 1; x < xSize-2; x++)
 		{
-			u[x][t+1] = u[x][t] + D/(DX * DX) * (u[x+1][t] - 2*u[x][t] + u[x-1][t]);
+			u[x][t+1] = u[x][t] + D * DT /(DX * DX) * (u[x+1][t] - 2*u[x][t] + u[x-1][t]);
 		}
 	}
     
