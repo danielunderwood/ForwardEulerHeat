@@ -5,7 +5,7 @@
 #define D 1
 #define L 10
 #define DX 0.5
-#define TMAX 10
+#define TMAX 1
 #define DT 0.1
 
 int xSize = L/DX + 2;
@@ -73,13 +73,13 @@ double ** fillBCIC(double ** u, double * ic, double ** bc)
 	int x, t;
 
 	// Initial Conditions
-	for (t = 1; t < tSize; t++)
+	for (t = 1; t < tSize-2; t++)
 	{
 		u[0][t] = ic[t];
 	}
 
 	// Boundary Conditions
-	for (x = 1; x < xSize; x++)
+	for (x = 1; x < xSize-2; x++)
 	{
 		u[x][0] = bc[x][0];
 		u[x][xSize-1] = bc[x][1];
@@ -93,9 +93,9 @@ double ** eulerCalculation(double ** u)
 {
 	int x, t = 0;
 
-	for(x = 2; x < xSize-2; x++)
+	for(t = 1; t < tSize-2; t++)
 	{
-		for(t = 2; t < tSize-2; t++)
+		for(x = 1; x < xSize-2; x++)
 		{
 			u[x][t+1] = u[x][t] + D/(DX * DX) * (u[x+1][t] - 2*u[x][t] + u[x-1][t]);
 		}
@@ -107,6 +107,7 @@ double ** eulerCalculation(double ** u)
 int main(int argc, char ** argv)
 {
     int x, t = 0;
+	FILE * dataFile;
 	double ** u = createFunctionArray(L, DX, TMAX, DT);
 	double * ic = createICArray();
 	double ** bc = createBCArray();
@@ -114,16 +115,19 @@ int main(int argc, char ** argv)
 	u = fillBCIC(u, ic, bc);
 	u = eulerCalculation(u);
 	// Try to print array
-	for(x = 0; x < xSize; x++)
+	dataFile = fopen("data2.txt", "w+");
+	for(t = 0; t < tSize-2; t++)
 	{
-		for(t = 0; t < tSize; t++)
+		for(x = 0; x < xSize-2; x++)
 		{
-            fprintf(stdout, "%f ", u[x][t]);
+            fprintf(dataFile, "%.2f\t", u[x][t]);
 		}
-		fprintf(stdout, "\n");
+		fprintf(dataFile, "\n");
 	}
-    
-    fprintf(stdout, "Exiting");
+
+    fprintf(dataFile, "Exiting");
+
+	fclose(dataFile);
 
 	return 0;
 }
