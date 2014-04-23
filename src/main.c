@@ -116,9 +116,9 @@ int main(int argc, char ** argv)
 	u = eulerCalculation(u);
 	// Try to print array
 	dataFile = fopen("data2.txt", "w+");
-	for(t = 0; t < tSize-2; t++)
+	for(t = 0; t < tSize-1; t++)
 	{
-		for(x = 0; x < xSize-2; x++)
+		for(x = 0; x < xSize-1; x++)
 		{
             fprintf(dataFile, "%.2f\t", u[x][t]);
 		}
