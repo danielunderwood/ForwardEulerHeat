@@ -15,3 +15,5 @@ include_directories(${INCLUDE_DIRS})
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 
 target_link_libraries(${PROJECT_NAME} ${PYTHON_LIBRARIES})
+
+file(COPY ./scripts DESTINATION ${CMAKE_BINARY_DIR})

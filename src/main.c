@@ -5,7 +5,7 @@
 #define D 1
 #define L 10
 #define DX 0.5
-#define TMAX 1
+#define TMAX 100
 #define DT 0.01
 
 int xSize = L/DX + 2;
@@ -124,8 +124,6 @@ int main(int argc, char ** argv)
 		}
 		fprintf(dataFile, "\n");
 	}
-
-    	fprintf(dataFile, "Exiting");
 
 	fclose(dataFile);
 
