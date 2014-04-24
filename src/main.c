@@ -62,8 +62,8 @@ double ** createBCArray()
 	// BC Array Filled
 	for(i = 0; i < tSize; i++)
 	{
-		bc[i][0] = 50 + 40*sin(2*i);
-		bc[i][1] = 50;
+		bc[i][0] = 100;
+		bc[i][1] = 0;
 	}
 	return bc;
 }
@@ -83,7 +83,7 @@ double ** fillBCIC(double ** u, double * ic, double ** bc)
 	for (t = 0; t < tSize-1; t++)
 	{
 		u[0][t] = bc[t][0];
-		u[xSize-2][t] = bc[t][1];
+		u[xSize-2][t] = u[xSize-1][t];
 	}
 
 	return u;
