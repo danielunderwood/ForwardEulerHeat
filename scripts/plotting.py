@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plot
 
 # Read In data File
-data = np.genfromtxt("data2.txt", delimiter="\t")
+data = np.genfromtxt("../data.dat", delimiter="\t")
 
 x = np.linspace(0.0, 1.0, num=data[1,:].size)
 

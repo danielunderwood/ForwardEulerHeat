@@ -37,7 +37,7 @@ double * createICArray()
 	double * ic = (double*)malloc(tSize * sizeof(double));
 
 	// IC Array Filled
-	for(i = 0; i < tSize; i++)
+	for(i = 0; i < xSize; i++)
 	{
 		ic[i] = 50;
 	}
@@ -51,18 +51,18 @@ double ** createBCArray()
 {
 	int i;
 
-	double ** bc = (double**)malloc(xSize * sizeof(double*));
+	double ** bc = (double**)malloc(tSize * sizeof(double*));
 
-	for (i = 0; i < xSize; i++)
+	for (i = 0; i < tSize; i++)
 	{
 		bc[i] = (double *)malloc(2 * sizeof(double));
 	}
 
 	// BC Array Filled
-	for(i = 0; i < xSize; i++)
+	for(i = 0; i < tSize; i++)
 	{
-		bc[i][0] = 100;
-		bc[i][1] = 0;
+		bc[i][0] = 50 + 40*sin(2*i);
+		bc[i][1] = 50;
 	}
 	return bc;
 }
@@ -73,16 +73,16 @@ double ** fillBCIC(double ** u, double * ic, double ** bc)
 	int x, t;
 
 	// Initial Conditions
-	for (t = 1; t < tSize-2; t++)
+	for (x = 1; x < xSize-2; x++)
 	{
-		u[0][t] = ic[t];
+		u[x][0] = ic[x];
 	}
 
 	// Boundary Conditions
-	for (x = 1; x < xSize-2; x++)
+	for (t = 1; t < tSize-2; t++)
 	{
-		u[x][0] = bc[x][0];
-		u[x][xSize-1] = bc[x][1];
+		u[0][t] = bc[x][0];
+		u[t][tSize-2] = bc[t][1];
 	}
 
 	return u;
@@ -104,6 +104,20 @@ double ** eulerCalculation(double ** u)
     	return u;
 }
 
+// Fix BC for Fixed Slope
+// TODO: Refactor this into setting BC (Also doesn't seem to work)
+double ** fixedSlopeBC(double ** u)
+{
+    int x;
+    
+    for(x = 0; x < xSize - 1; x++)
+    {
+        u[x][1] = u[x][0];
+        u[x][xSize-2] = u[x][xSize - 1];
+    }
+    return u;
+}
+
 int main(int argc, char ** argv)
 {
     	int x, t = 0;
@@ -114,8 +128,10 @@ int main(int argc, char ** argv)
 
 	u = fillBCIC(u, ic, bc);
 	u = eulerCalculation(u);
+    //u = fixedSlopeBC(u);
+    
 	// Try to print array
-	dataFile = fopen("data2.txt", "w+");
+	dataFile = fopen("data.dat", "w+");
 	for(t = 0; t < tSize-1; t++)
 	{
 		for(x = 0; x < xSize-1; x++)
