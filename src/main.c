@@ -84,6 +84,7 @@ double ** fillBCIC(double ** u, double * ic, double ** bc)
 	{
 		u[0][t] = bc[t][0];
 		u[xSize-2][t] = u[xSize-1][t];
+        u[xSize-3][t] = u[xSize-2][t];
 	}
 
 	return u;
