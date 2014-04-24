@@ -1,5 +1,6 @@
 #include <Python.h>
 #include <stdio.h>
+#include <Math.h>
 
 // Define things that may want to be changed
 #define D 1
@@ -73,16 +74,16 @@ double ** fillBCIC(double ** u, double * ic, double ** bc)
 	int x, t;
 
 	// Initial Conditions
-	for (x = 1; x < xSize-2; x++)
+	for (x = 0; x < xSize-1; x++)
 	{
 		u[x][0] = ic[x];
 	}
 
 	// Boundary Conditions
-	for (t = 1; t < tSize-2; t++)
+	for (t = 0; t < tSize-1; t++)
 	{
-		u[0][t] = bc[x][0];
-		u[t][tSize-2] = bc[t][1];
+		u[0][t] = bc[t][0];
+		u[xSize-2][t] = bc[t][1];
 	}
 
 	return u;
@@ -128,6 +129,7 @@ int main(int argc, char ** argv)
 
 	u = fillBCIC(u, ic, bc);
 	u = eulerCalculation(u);
+    u = fillBCIC(u, ic, bc);
     //u = fixedSlopeBC(u);
     
 	// Try to print array
